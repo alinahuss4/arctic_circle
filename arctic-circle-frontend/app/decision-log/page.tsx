@@ -37,7 +37,9 @@ function PolicyPanel({ treasury, signals }: { treasury: TreasuryData; signals: S
     return <span className={`inline-block rounded-[3px] px-2 py-0.5 font-sans text-[11px] font-medium ${styles[status]}`}>{status}</span>
   }
 
-  const TOTAL_PAYROLL = 9500
+
+
+  const TOTAL_PAYROLL = treasury.total_payroll
   const liqPct = treasury.liquidity_ratio * 100
   const usycPct = treasury.usyc_ratio * 100
   const hasPayrollBuffer = treasury.usdc >= TOTAL_PAYROLL * 1.1
