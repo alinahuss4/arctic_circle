@@ -4,32 +4,32 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #0D0D14;
-  --foreground: #F0E6FF;
-  --card: #16162A;
-  --card-foreground: #F0E6FF;
-  --card-border: #2D2B55;
-  --popover: #16162A;
-  --popover-foreground: #F0E6FF;
-  --primary: #C084FC;
-  --primary-foreground: #FFFFFF;
-  --secondary: #F472B6;
-  --secondary-foreground: #FFFFFF;
-  --muted: #1E1E35;
-  --muted-foreground: #8B7FA8;
-  --accent: #C084FC;
-  --accent-foreground: #FFFFFF;
-  --destructive: #F87171;
-  --destructive-foreground: #FFFFFF;
-  --border: #2D2B55;
-  --input: #0D0D14;
-  --ring: #C084FC;
-  --header-bg: #0A0A12;
+  --background: #f8f7ff;
+  --foreground: #1e1b2e;
+  --card: #ffffff;
+  --card-foreground: #1e1b2e;
+  --card-border: #ddd8f0;
+  --popover: #ffffff;
+  --popover-foreground: #1e1b2e;
+  --primary: #7c3aed;
+  --primary-foreground: #ffffff;
+  --secondary: #db2777;
+  --secondary-foreground: #ffffff;
+  --muted: #f0edf8;
+  --muted-foreground: #6b5f8a;
+  --accent: #7c3aed;
+  --accent-foreground: #ffffff;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --border: #ddd8f0;
+  --input: #f0edf8;
+  --ring: #7c3aed;
+  --header-bg: #ffffff;
 
-  --usdc: #60A5FA;
-  --usyc: #34D399;
-  --amber: #FBBF24;
-  --alert-red: #F87171;
+  --usdc: #2563eb;
+  --usyc: #059669;
+  --amber: #d97706;
+  --alert-red: #dc2626;
 
   --radius: 4px;
 }
@@ -82,7 +82,7 @@
 }
 
 .skeleton-shimmer {
-  background: linear-gradient(90deg, #1E1E35 25%, #2D2B55 50%, #1E1E35 75%);
+  background: linear-gradient(90deg, #f0edf8 25%, #ddd8f0 50%, #f0edf8 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s ease-in-out infinite;
 }

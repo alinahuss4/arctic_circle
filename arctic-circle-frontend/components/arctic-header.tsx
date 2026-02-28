@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { CoinIcon, RobotIcon, ChartBarsIcon, ScrollIcon, PersonIcon } from './pixel-icons'
+import { LogoIcon, CoinIcon, RobotIcon, ChartBarsIcon, ScrollIcon, PersonIcon } from './pixel-icons'
 import { useArcticToast } from './arctic-toast'
 
 const NAV_ITEMS = [
@@ -25,10 +25,10 @@ export function ArcticSidebar({ agentOnline }: { agentOnline: boolean }) {
   const pathname = usePathname()
 
   return (
-    <aside className="fixed top-0 left-0 z-40 flex h-screen w-[200px] flex-col border-r border-border bg-[#0A0A12]">
+    <aside className="fixed top-0 left-0 z-40 flex h-screen w-[200px] flex-col border-r border-border bg-header-bg">
       {/* Logo */}
       <div className="flex items-center gap-2 px-5 pt-5 pb-6">
-        <CoinIcon size={22} />
+        <LogoIcon size={100} />
         <span className="font-sans text-[18px] font-bold text-foreground">ArcTic</span>
       </div>
 
@@ -42,8 +42,8 @@ export function ArcticSidebar({ agentOnline }: { agentOnline: boolean }) {
               href={item.href}
               className={`flex items-center gap-3 rounded-[4px] px-3 py-2.5 font-sans text-[13px] font-medium transition-colors ${
                 isActive
-                  ? 'bg-[rgba(192,132,252,0.12)] text-primary'
-                  : 'text-muted-foreground hover:bg-[rgba(192,132,252,0.06)] hover:text-foreground'
+                  ? 'bg-primary/10 text-primary'
+                  : 'text-muted-foreground hover:bg-primary/5 hover:text-foreground'
               }`}
             >
               <NavIcon type={item.icon} size={18} />
@@ -89,7 +89,7 @@ export function ArcticTopBar() {
   }
 
   return (
-    <div className="flex h-[40px] items-center justify-between border-b border-border bg-[#0A0A12] px-5">
+    <div className="flex h-[40px] items-center justify-between border-b border-border bg-header-bg px-5">
       <span className="font-mono text-[12px] text-muted-foreground">{utcTime}</span>
       <button
         onClick={handleTriggerAgent}

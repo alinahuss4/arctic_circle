@@ -241,11 +241,6 @@ function PaydayCard({ treasury }: { treasury: TreasuryData }) {
   return (
     <Link href="/payroll" className="block">
       <div className={`group relative flex flex-col gap-4 rounded-[4px] border ${cardBorder} ${cardBg} p-3 transition-all hover:-translate-y-[1px] hover:shadow-[0_0_24px_rgba(192,132,252,0.2)] lg:flex-row lg:items-center lg:justify-between ${cardShadow}`}>
-        {insufficient && (
-          <div className="absolute top-3 right-3">
-            <WarningIcon size={20} />
-          </div>
-        )}
 
         {/* Left side */}
         <div>
@@ -264,6 +259,16 @@ function PaydayCard({ treasury }: { treasury: TreasuryData }) {
           <p className="mt-0.5 font-sans text-[11px] text-muted-foreground">
             Payroll date: 28th of every month
           </p>
+
+          {/* Warning underneath the day count */}
+          {insufficient && (
+            <div className="mt-2 flex items-center gap-1.5">
+              <WarningIcon size={24} />
+              <span className="font-sans text-[11px] font-medium text-alert-red">
+                Liquid USDC is ${(requiredAmount - treasury.usdc).toLocaleString('en-US', { minimumFractionDigits: 2 })} short of payroll requirement
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Right side */}
@@ -375,7 +380,7 @@ function YieldBreakdown({ treasury, signals }: { treasury: TreasuryData; signals
       </div>
 
       {/* Yield History Line Chart */}
-      <div className="rounded-[4px] border border-border bg-[#16162A] p-3">
+      <div className="rounded-[4px] border border-border bg-header-bg p-3">
         <p className="mb-2 font-sans text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
           YIELD RATE HISTORY
         </p>
@@ -438,45 +443,45 @@ function YieldBreakdown({ treasury, signals }: { treasury: TreasuryData; signals
   )
 }
 
-// ===== Detailed Breakdown =====
-function DetailedBreakdown({ treasury }: { treasury: TreasuryData }) {
-  return (
-    <section className="rounded-[4px] border border-border bg-card p-3">
-      <p className="mb-2 font-sans text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
-        DETAILED BREAKDOWN
-      </p>
-      <div className="grid grid-cols-2 gap-x-6 gap-y-2 lg:grid-cols-4">
-        <div>
-          <p className="font-sans text-[10px] font-medium uppercase tracking-wider text-muted-foreground">LIQUID: USDC</p>
-          <p className="font-sans text-[14px] font-bold text-usdc">${treasury.usdc.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
-        </div>
-        <div>
-          <p className="font-sans text-[10px] font-medium uppercase tracking-wider text-muted-foreground">LIQUID: EURC</p>
-          <p className="font-sans text-[14px] font-bold text-foreground">$0.00</p>
-        </div>
-        <div>
-          <p className="font-sans text-[10px] font-medium uppercase tracking-wider text-muted-foreground">NON-LIQUID: USYC</p>
-          <p className="font-sans text-[14px] font-bold text-usyc">${treasury.usyc.toLocaleString('en-US', { minimumFractionDigits: 2 })} <span className="text-[10px] font-normal text-muted-foreground">at 6.2% APY</span></p>
-        </div>
-        <div>
-          <p className="font-sans text-[10px] font-medium uppercase tracking-wider text-muted-foreground">COMBINED</p>
-          <p className="font-sans text-[14px] font-bold text-foreground">${treasury.total.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
-        </div>
-      </div>
-      <div className="mt-2 flex gap-4 border-t border-border pt-2">
-        <p className="font-sans text-[11px] text-muted-foreground">
-          Total liquid: <span className="font-medium text-usdc">${treasury.usdc.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
-        </p>
-        <p className="font-sans text-[11px] text-muted-foreground">
-          Total non-liquid: <span className="font-medium text-usyc">${treasury.usyc.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
-        </p>
-        <p className="font-sans text-[11px] text-muted-foreground">
-          Combined: <span className="font-medium text-foreground">${treasury.total.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
-        </p>
-      </div>
-    </section>
-  )
-}
+// // ===== Detailed Breakdown =====
+// function DetailedBreakdown({ treasury }: { treasury: TreasuryData }) {
+//   return (
+//     <section className="rounded-[4px] border border-border bg-card p-3">
+//       <p className="mb-2 font-sans text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+//         DETAILED BREAKDOWN
+//       </p>
+//       <div className="grid grid-cols-2 gap-x-6 gap-y-2 lg:grid-cols-4">
+//         <div>
+//           <p className="font-sans text-[10px] font-medium uppercase tracking-wider text-muted-foreground">LIQUID: USDC</p>
+//           <p className="font-sans text-[14px] font-bold text-usdc">${treasury.usdc.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
+//         </div>
+//         <div>
+//           <p className="font-sans text-[10px] font-medium uppercase tracking-wider text-muted-foreground">LIQUID: EURC</p>
+//           <p className="font-sans text-[14px] font-bold text-foreground">$0.00</p>
+//         </div>
+//         <div>
+//           <p className="font-sans text-[10px] font-medium uppercase tracking-wider text-muted-foreground">NON-LIQUID: USYC</p>
+//           <p className="font-sans text-[14px] font-bold text-usyc">${treasury.usyc.toLocaleString('en-US', { minimumFractionDigits: 2 })} <span className="text-[10px] font-normal text-muted-foreground">at 6.2% APY</span></p>
+//         </div>
+//         <div>
+//           <p className="font-sans text-[10px] font-medium uppercase tracking-wider text-muted-foreground">COMBINED</p>
+//           <p className="font-sans text-[14px] font-bold text-foreground">${treasury.total.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
+//         </div>
+//       </div>
+//       <div className="mt-2 flex gap-4 border-t border-border pt-2">
+//         <p className="font-sans text-[11px] text-muted-foreground">
+//           Total liquid: <span className="font-medium text-usdc">${treasury.usdc.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+//         </p>
+//         <p className="font-sans text-[11px] text-muted-foreground">
+//           Total non-liquid: <span className="font-medium text-usyc">${treasury.usyc.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+//         </p>
+//         <p className="font-sans text-[11px] text-muted-foreground">
+//           Combined: <span className="font-medium text-foreground">${treasury.total.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+//         </p>
+//       </div>
+//     </section>
+//   )
+// }
 
 // ===== Decision Log Summary Card =====
 function DecisionLogSummary() {
@@ -652,9 +657,9 @@ export default function DashboardPage() {
       </div>
 
       {/* Section 4: Detailed Breakdown */}
-      <div className="mt-3">
+      {/* <div className="mt-3">
         <DetailedBreakdown treasury={MOCK_TREASURY} />
-      </div>
+      </div> */}
     </div>
   )
 }

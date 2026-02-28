@@ -59,6 +59,71 @@ export function CoinIcon({ size = 24 }: { size?: number }) {
   )
 }
 
+export function LogoIcon({ size = 32 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 32 32"
+      style={pixelStyle}
+      aria-hidden="true"
+    >
+      {/* Mountain fill - left slope */}
+      <rect x="6" y="20" width="2" height="2" fill="#1E3A8A" />
+      <rect x="8" y="18" width="2" height="2" fill="#1E3A8A" />
+      <rect x="8" y="20" width="2" height="2" fill="#1E3A8A" />
+      <rect x="10" y="16" width="2" height="2" fill="#2563EB" />
+      <rect x="10" y="18" width="2" height="2" fill="#2563EB" />
+      <rect x="10" y="20" width="2" height="2" fill="#2563EB" />
+      <rect x="12" y="14" width="2" height="2" fill="#3B82F6" />
+      <rect x="12" y="16" width="2" height="2" fill="#3B82F6" />
+      <rect x="12" y="18" width="2" height="2" fill="#3B82F6" />
+      <rect x="12" y="20" width="2" height="2" fill="#3B82F6" />
+      <rect x="14" y="12" width="2" height="2" fill="#60A5FA" />
+      <rect x="14" y="14" width="2" height="2" fill="#60A5FA" />
+      <rect x="14" y="16" width="2" height="2" fill="#60A5FA" />
+      <rect x="14" y="18" width="2" height="2" fill="#60A5FA" />
+      <rect x="14" y="20" width="2" height="2" fill="#60A5FA" />
+
+      {/* Mountain fill - right slope */}
+      <rect x="16" y="14" width="2" height="2" fill="#3B82F6" />
+      <rect x="16" y="16" width="2" height="2" fill="#3B82F6" />
+      <rect x="16" y="18" width="2" height="2" fill="#3B82F6" />
+      <rect x="16" y="20" width="2" height="2" fill="#3B82F6" />
+      <rect x="18" y="16" width="2" height="2" fill="#2563EB" />
+      <rect x="18" y="18" width="2" height="2" fill="#2563EB" />
+      <rect x="18" y="20" width="2" height="2" fill="#2563EB" />
+      <rect x="20" y="18" width="2" height="2" fill="#1E40AF" />
+      <rect x="20" y="20" width="2" height="2" fill="#1E40AF" />
+      <rect x="22" y="20" width="2" height="2" fill="#1E3A8A" />
+
+      {/* Snow caps */}
+      <rect x="14" y="10" width="2" height="2" fill="#ffbef7" />
+      <rect x="12" y="12" width="2" height="2" fill="#ffc8f2" />
+      <rect x="16" y="12" width="2" height="2" fill="#fbc5ff" />
+
+      {/* Base */}
+      <rect x="4" y="22" width="2" height="2" fill="#1E3A8A" />
+      <rect x="6" y="22" width="2" height="2" fill="#1E3A8A" />
+      <rect x="8" y="22" width="2" height="2" fill="#1E3A8A" />
+      <rect x="10" y="22" width="2" height="2" fill="#1E3A8A" />
+      <rect x="12" y="22" width="2" height="2" fill="#1E3A8A" />
+      <rect x="14" y="22" width="2" height="2" fill="#1E3A8A" />
+      <rect x="16" y="22" width="2" height="2" fill="#1E3A8A" />
+      <rect x="18" y="22" width="2" height="2" fill="#1E3A8A" />
+      <rect x="20" y="22" width="2" height="2" fill="#1E3A8A" />
+      <rect x="22" y="22" width="2" height="2" fill="#1E3A8A" />
+      <rect x="24" y="22" width="2" height="2" fill="#1E3A8A" />
+
+      {/* Pixel dissolve */}
+      <rect x="24" y="16" width="2" height="2" fill="#860cab" />
+      <rect x="26" y="14" width="2" height="2" fill="#ffb2f7" />
+      <rect x="28" y="12" width="2" height="2" fill="#ff64fa" />
+      <rect x="26" y="18" width="2" height="2" fill="#ff6cb6" />
+    </svg>
+  )
+}
+
 export function ScrollIcon({ size = 24 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 32 32" style={pixelStyle} aria-hidden="true">
