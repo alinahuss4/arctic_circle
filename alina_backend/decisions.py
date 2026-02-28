@@ -1,8 +1,9 @@
 import datetime
 from signals import get_usdc_yield
 from policies import check_policies
-from logger import log_decision
-from config import TOTAL_PAYROLL, YIELD_THRESHOLD, PAY_DAY, DAYS_BEFORE_PAYROLL_PREP
+from logger import log_decision, init_db
+from circle_client import get_balances, deposit_to_usyc, withdraw_from_usyc, execute_payroll
+from config import TOTAL_PAYROLL, YIELD_THRESHOLD, PAY_DAY, DAYS_BEFORE_PAYROLL_PREP, EMPLOYEES
 
 def days_until_payday():
     today = datetime.date.today()
@@ -14,15 +15,18 @@ def days_until_payday():
             pay_date = pay_date.replace(month=today.month+1)
     return (pay_date - today).days
 
-def evaluate(usdc_balance, usyc_balance):
+def evaluate(usdc_balance=None, usyc_balance=None):
+    if usdc_balance is None or usyc_balance is None:
+        balances = get_balances()
+        usdc_balance = balances["usdc_balance"]
+        usyc_balance = balances["usyc_balance"]
+
     yield_rate = get_usdc_yield()
     days_to_pay = days_until_payday()
-    total = usdc_balance + usyc_balance
     reasoning = []
     action = "monitor"
     execution = None
 
-    # payday
     if days_to_pay == 0:
         action = "execute_payroll"
         reasoning.append(
@@ -35,8 +39,8 @@ def evaluate(usdc_balance, usyc_balance):
             reasoning += policy["violations"]
         else:
             reasoning.append("All policy checks passed. Executing payroll.")
+            execution = execute_payroll(EMPLOYEES)
 
-    # pre-payroll prep
     elif days_to_pay <= DAYS_BEFORE_PAYROLL_PREP:
         needed = TOTAL_PAYROLL * 1.1
         if usdc_balance < needed:
@@ -44,9 +48,9 @@ def evaluate(usdc_balance, usyc_balance):
             action = "withdraw_from_usyc"
             reasoning.append(
                 f"Payroll in {days_to_pay} days. Need {needed:.0f} USDC. "
-                f"Currently have {usdc_balance:.0f} USDC. "
                 f"Withdrawing {shortfall:.0f} from USYC."
             )
+            execution = withdraw_from_usyc(shortfall)
         else:
             action = "monitor"
             reasoning.append(
@@ -54,7 +58,6 @@ def evaluate(usdc_balance, usyc_balance):
                 f"Liquidity sufficient at {usdc_balance:.0f} USDC."
             )
 
-    # yield optimisation
     elif yield_rate > YIELD_THRESHOLD:
         excess = usdc_balance - (TOTAL_PAYROLL * 1.5)
         if excess > 0:
@@ -68,14 +71,14 @@ def evaluate(usdc_balance, usyc_balance):
             if not policy["approved"]:
                 action = "blocked"
                 reasoning += policy["violations"]
+            else:
+                execution = deposit_to_usyc(excess)
         else:
             action = "monitor"
             reasoning.append(
                 f"Yield attractive at {yield_rate:.1f}% but no excess "
                 f"funds above payroll buffer to deploy."
             )
-
-    # hold
     else:
         reasoning.append(
             f"Yield at {yield_rate:.1f}%, below {YIELD_THRESHOLD}% threshold. "
@@ -90,7 +93,8 @@ def evaluate(usdc_balance, usyc_balance):
         usdc=usdc_balance,
         usyc=usyc_balance,
         yield_rate=yield_rate,
-        violations=[] if approved else reasoning
+        violations=[] if approved else reasoning,
+        execution=execution
     )
 
     return {
@@ -99,11 +103,12 @@ def evaluate(usdc_balance, usyc_balance):
         "usdc_balance": usdc_balance,
         "usyc_balance": usyc_balance,
         "yield_rate": yield_rate,
-        "days_to_payday": days_to_pay
+        "days_to_payday": days_to_pay,
+        "execution": execution
     }
 
-# test it
 if __name__ == "__main__":
-    result = evaluate(usdc_balance=50000, usyc_balance=10000)
+    init_db()
+    result = evaluate()
     print(f"Action: {result['action']}")
     print(f"Reasoning: {result['reasoning']}")
