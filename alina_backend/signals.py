@@ -1,3 +1,5 @@
+import requests
+
 def get_usdc_yield():
     try:
         response = requests.get("https://yields.llama.fi/pools")

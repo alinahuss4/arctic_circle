@@ -7,12 +7,17 @@ from config import TOTAL_PAYROLL, YIELD_THRESHOLD, PAY_DAY, DAYS_BEFORE_PAYROLL_
 
 def days_until_payday():
     today = datetime.date.today()
-    pay_date = today.replace(day=PAY_DAY)
+    try:
+        pay_date = today.replace(day=PAY_DAY)
+    except ValueError:
+        pay_date = today.replace(day=1) + datetime.timedelta(days=32)
+        pay_date = pay_date.replace(day=PAY_DAY)
+    
     if pay_date <= today:
-        if today.month == 12:
-            pay_date = pay_date.replace(year=today.year+1, month=1)
-        else:
-            pay_date = pay_date.replace(month=today.month+1)
+        month = today.month % 12 + 1
+        year = today.year + (1 if today.month == 12 else 0)
+        pay_date = today.replace(year=year, month=month, day=PAY_DAY)
+    
     return (pay_date - today).days
 
 def evaluate(usdc_balance=None, usyc_balance=None):

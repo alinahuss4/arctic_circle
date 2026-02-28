@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from decisions import evaluate
 from logger import get_recent_decisions, init_db
 from signals import get_usdc_yield
+from circle_client import get_balances
 from config import EMPLOYEES
 import threading
 import time
@@ -12,17 +13,12 @@ app.add_middleware(CORSMiddleware, allow_origins=["*"])
 
 init_db()
 
-# Mock balances until Circle wallets are ready
-treasury_state = {
-    "usdc_balance": 50000.0,
-    "usyc_balance": 10000.0
-}
-
 def agent_loop():
     while True:
+        balances = get_balances()
         evaluate(
-            usdc_balance=treasury_state["usdc_balance"],
-            usyc_balance=treasury_state["usyc_balance"]
+            usdc_balance=balances["usdc_balance"],
+            usyc_balance=balances["usyc_balance"]
         )
         time.sleep(60)
 
@@ -30,10 +26,11 @@ threading.Thread(target=agent_loop, daemon=True).start()
 
 @app.get("/treasury")
 def treasury():
+    balances = get_balances()
     return {
-        "usdc_balance": treasury_state["usdc_balance"],
-        "usyc_balance": treasury_state["usyc_balance"],
-        "total": treasury_state["usdc_balance"] + treasury_state["usyc_balance"]
+        "usdc_balance": balances["usdc_balance"],
+        "usyc_balance": balances["usyc_balance"],
+        "total": balances["usdc_balance"] + balances["usyc_balance"]
     }
 
 @app.get("/signals")
@@ -50,8 +47,9 @@ def employees():
 
 @app.post("/trigger")
 def trigger():
+    balances = get_balances()
     result = evaluate(
-        usdc_balance=treasury_state["usdc_balance"],
-        usyc_balance=treasury_state["usyc_balance"]
+        usdc_balance=balances["usdc_balance"],
+        usyc_balance=balances["usyc_balance"]
     )
     return result
