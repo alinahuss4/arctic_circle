@@ -23,6 +23,3 @@ Arctic Circle is a robot CFO. It watches live yield signals, enforces policy rul
 - **Yield Oracle** — DeFi Llama
 - **Backend** — Python, FastAPI
 - **Database** — SQLite
-
-## Hackathon
-Encode × Arc DeFi Hackathon — Challenges 3 and 4.
